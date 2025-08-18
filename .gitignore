@@ -1,0 +1,22 @@
+#  Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# .tfvars files
+#*.tfvars
+
+# .tfplan files
+*.tfplan
+
+# .pem files
+*.pem
+
+# .hcl files from Terraform v0.14 and newer
+*.hcl
+
+# working directory for web app
+/globo_web_app/*
+
