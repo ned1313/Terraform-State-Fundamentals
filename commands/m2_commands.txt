@@ -1,0 +1,13 @@
+# Set the instance id
+
+# Stop the instance
+aws ec2 stop-instances --instance-ids $instance_id
+
+# Wait for instance to be stopped
+aws ec2 wait instance-stopped --instance-ids $instance_id
+
+# Change the instance type
+aws ec2 modify-instance-attribute --instance-id $instance_id --instance-type '{"Value": "t3.micro"}' 
+
+# Start the instance
+aws ec2 start-instances --instance-ids $instance_id
