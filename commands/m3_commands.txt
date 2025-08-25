@@ -1,0 +1,80 @@
+# Change directory to the s3_bucket_create folder
+cd s3_bucket_create
+
+# Initialize Terraform
+terraform init
+
+# Plan the infrastructure changes
+terraform plan -out="bucket.tfplan"
+
+# Apply the planned changes
+terraform apply "bucket.tfplan"
+
+# Create the backend block in the terraform.tf file
+# Change directory to the nacho_brigade folder
+cd ../nacho_brigade
+
+# Create the s3.tfbackend file and populate it with the backend configuration
+
+## PowerShell
+New-Item -Path .\s3.tfbackend -ItemType File
+
+## Bash
+touch s3.tfbackend
+
+# Initialize Terraform with the new backend configuration
+terraform init -backend-config="s3.tfbackend"
+
+# Verify the backend migration
+terraform show
+
+# Demonstrate locking
+# Run terraform console in the terminal
+terraform console
+
+# Open a second terminal and try to run any terraform command, such as plan
+cd ../nacho_brigade
+terraform plan
+
+# Force unlock the state in the second terminal
+terraform force-unlock LOCK_ID
+
+# Show the first terminal is still in console mode
+aws_instance.web
+
+# Workspaces exercise
+# Add the locals block to main.tf and replace environment references
+
+# View current workspace
+terraform workspace show
+
+# Run a plan to validate no changes
+terraform plan
+
+# Create a new workspace called dev-2
+terraform workspace new dev-2
+
+# Verify no resources are present
+terraform state list
+
+# Create a plan and apply it
+terraform apply
+
+# List the workspaces
+terraform workspace list
+
+# Destroy the resources in the dev-2 workspace
+terraform destroy -auto-approve
+
+# Switch back to the default workspace
+terraform workspace select default
+
+# Delete the dev-2 workspace
+terraform workspace delete dev-2
+
+# Destroy the resources in the default workspace
+terraform destroy -auto-approve
+
+# Destroy the S3 bucket resources
+cd ../s3_bucket_create
+terraform destroy -auto-approve
