@@ -1,4 +1,19 @@
+# Use terraform state commands to find the instance id
+terraform state list
+
+# PowerShell
+terraform state show aws_instance.app | Select-String "id"
+
+# Bash
+terraform state show aws_instance.app | grep "id"
+
 # Set the instance id
+
+# PowerShell
+$instance_id = "INSTANCE_ID"
+
+# Bash
+instance_id="INSTANCE_ID"
 
 # Stop the instance
 aws ec2 stop-instances --instance-ids $instance_id
@@ -7,7 +22,28 @@ aws ec2 stop-instances --instance-ids $instance_id
 aws ec2 wait instance-stopped --instance-ids $instance_id
 
 # Change the instance type
-aws ec2 modify-instance-attribute --instance-id $instance_id --instance-type '{"Value": "t3.micro"}' 
+aws ec2 modify-instance-attribute --instance-id $instance_id --instance-type '{"Value": "t3.nano"}' 
 
 # Start the instance
 aws ec2 start-instances --instance-ids $instance_id
+
+# Run a plan with refresh only
+terraform plan -refresh-only
+
+# Run a terraform apply to update the state
+terraform apply -refresh-only
+
+# Update terraform.tfvars to use the new instance type and run plan
+terraform plan
+
+# Change the name label of the instance in main.tf and run plan
+terraform plan
+
+# Add the moved block comment back in main.tf and run plan
+terraform plan
+
+# Undo those change and comment out the EC2 resources and output
+terraform plan
+
+# Add the removed blocks and run plan
+terraform plan

@@ -1,0 +1,34 @@
+# Make a copy of the base_app folder
+
+## PowerShell
+Copy-Item -Recurse -Path .\base_app -Destination .\nacho_brigade
+
+## Bash
+cp -r base_app nacho_brigade
+
+# Change directory to the new folder
+cd nacho_brigade
+
+# Initialize Terraform
+terraform init
+
+# Plan the infrastructure changes
+terraform plan -out="m1.tfplan"
+
+# Apply the planned changes
+terraform apply "m1.tfplan"
+
+# Create a workspace called dev
+terraform workspace new dev
+
+# Try to apply the same plan in the new workspace
+terraform apply "m1.tfplan"
+
+# Switch back to the default workspace
+terraform workspace select default
+
+# Delete the dev workspace
+terraform workspace delete dev
+
+# Destroy the infrastructure if needed
+terraform destroy
