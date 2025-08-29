@@ -18,11 +18,23 @@ terraform plan -out="m1.tfplan"
 # Apply the planned changes
 terraform apply "m1.tfplan"
 
+# Try to apply the same plan again to see the error
+terraform apply "m1.tfplan"
+
+# Create a new plan
+terraform plan -out="m1-new.tfplan"
+
 # Create a workspace called dev
 terraform workspace new dev
 
-# Try to apply the same plan in the new workspace
-terraform apply "m1.tfplan"
+# Deploy the infrastructure in the new workspace
+terraform apply
+
+# Try to apply the default workspace plan in the new workspace
+terraform apply "m1-new.tfplan"
+
+# Destroy the infrastructure in the dev workspace
+terraform destroy
 
 # Switch back to the default workspace
 terraform workspace select default
